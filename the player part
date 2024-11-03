@@ -1,0 +1,35 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
+
+public class PlayerMovement : MonoBehaviour
+{
+//This part is done by Anthony Deleo
+public float speed = 10f;
+private float life = 1;
+private float score;
+private float horizontalinput;
+private float verticalinput;
+    // Start is called before the first frame update
+    void Start()
+    {
+       speed = 5f  
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        horizontalinput = Input.GetAxis("horizontal");
+        verticalinput = Input.GetAxis("vertical");
+
+        if (transform.position.x > 8.5f)
+            transform.position = new Vector3(transform.position.x * -1, transform.position.y, 0);
+        else if (transform.position.x > -8.5f)
+
+            if (transform.position.y > 8.5f)
+        else if (transform.position.y > -8.5f)
+    }
+
+}
+}
