@@ -1,1 +1,133 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemySpawner : MonoBehaviour
+{
+    // References to prefabs for all three enemy types
+    public GameObject enemyType1Prefab;
+    public GameObject enemyType2Prefab;
+    public GameObject enemyType3Prefab;
+
+    // Spawn intervals for each enemy type
+    public float spawnIntervalType1 = 2f;
+    public float spawnIntervalType2 = 3.5f;
+    public float spawnIntervalType3 = 5f;
+
+    void Start()
+    {
+        // Start separate coroutines to spawn each enemy type
+        StartCoroutine(SpawnEnemyType1());
+        StartCoroutine(SpawnEnemyType2());
+        StartCoroutine(SpawnEnemyType3());
+    }
+
+    // Coroutine to spawn Enemy Type 1
+    IEnumerator SpawnEnemyType1()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(spawnIntervalType1);
+            Instantiate(enemyType1Prefab, GetRandomSpawnPosition(), Quaternion.identity);
+        }
+    }
+
+    // Coroutine to spawn Enemy Type 2
+    IEnumerator SpawnEnemyType2()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(spawnIntervalType2);
+            Instantiate(enemyType2Prefab, GetRandomSpawnPosition(), Quaternion.identity);
+        }
+    }
+
+    // Coroutine to spawn Enemy Type 3
+    IEnumerator SpawnEnemyType3()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(spawnIntervalType3);
+            Instantiate(enemyType3Prefab, GetRandomSpawnPosition(), Quaternion.identity);
+        }
+    }
+
+    // Generates a random position at the top of the screen for enemies to spawn
+    Vector3 GetRandomSpawnPosition()
+    {
+        float spawnX = Random.Range(-8f, 8f); // Adjust based on screen width
+        float spawnY = 6f; // Top of the screen
+        return new Vector3(spawnX, spawnY, 0);
+    }
+}
+
+// EnemyType1 script
+public class EnemyType1 : MonoBehaviour
+{
+    public float speed = 3f;
+
+    void Update()
+    {
+        // Move straight downwards
+        transform.Translate(Vector3.down * speed * Time.deltaTime);
+
+        // Destroy if it goes off-screen
+        if (transform.position.y < -10f)
+        {
+            Destroy(gameObject);
+        }
+    }
+}
+
+// EnemyType2 script
+public class EnemyType2 : MonoBehaviour
+{
+    public float speed = 4f;
+    public float zigzagFrequency = 2f; // Frequency of the zigzag
+    public float zigzagAmplitude = 2f; // Amplitude of the zigzag
+
+    void Update()
+    {
+        // Move in a zigzag pattern
+        float offsetX = Mathf.Sin(Time.time * zigzagFrequency) * zigzagAmplitude;
+        transform.Translate(new Vector3(offsetX, -1, 0) * speed * Time.deltaTime);
+
+        // Destroy if it goes off-screen
+        if (transform.position.y < -10f)
+        {
+            Destroy(gameObject);
+        }
+    }
+}
+
+// EnemyType3 script
+public class EnemyType3 : MonoBehaviour
+{
+    public float speed = 5f;
+    public float frequency = 1f; // Frequency of circular movement
+    public float amplitude = 3f; // Amplitude of circular movement
+    private Vector3 startPosition;
+
+    void Start()
+    {
+        startPosition = transform.position; // Set initial position for circular movement reference
+    }
+
+    void Update()
+    {
+        // Circular movement pattern
+        float offsetX = Mathf.Sin(Time.time * frequency) * amplitude;
+        float offsetY = Mathf.Cos(Time.time * frequency) * amplitude;
+        transform.position = new Vector3(startPosition.x + offsetX, startPosition.y + offsetY, transform.position.z);
+
+        // Move enemy downwards gradually
+        transform.Translate(Vector3.down * speed * Time.deltaTime);
+
+        // Destroy if it goes off-screen
+        if (transform.position.y < -10f)
+        {
+            Destroy(gameObject);
+        }
+    }
+}
 
