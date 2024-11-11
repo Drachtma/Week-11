@@ -1,0 +1,49 @@
+public class CoinController : MonoBehaviour
+{
+    public float movementSpeed = 3f;
+    public float lifespan = 5f;
+    public Vector2 moveDirection = Vector2.right;
+    public int scoreValue = 1;
+
+    private float timer;
+    private bool isCollected = false;
+    
+   
+    public static System.Action<int> OnCoinCollected;
+
+    private void Start()
+    {
+        // Randomize initial position of the coin
+        transform.position = new Vector2(Random.Range(-8f, 8f), Random.Range(-4f, 4f));
+        
+        // Set the timer to lifespan
+        timer = lifespan;
+    }
+
+    private void Update()
+    {
+        if (isCollected) return;
+
+        transform.Translate(moveDirection * movementSpeed * Time.deltaTime);
+
+        timer -= Time.deltaTime;
+        if (timer <= 0)
+        {
+            DestroyCoin();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            OnCoinCollected?.Invoke(scoreValue);  // Notify any listeners (e.g., to update the score)
+            DestroyCoin();
+        }
+    }
+
+    private void DestroyCoin()
+    {
+        Destroy(gameObject);
+    }
+}
