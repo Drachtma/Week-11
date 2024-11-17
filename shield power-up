@@ -1,1 +1,43 @@
+using System.
+using UnityEngine;
+
+private class Player : MonoBehaviour
+{
+    privite bool hasShield = false;
+    private GameObject shieldVisual;  // Optional, for a visual shield effect
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("ShieldPowerUp"))
+        {
+            hasShield = true;
+            ActivateShield();
+            Destroy(other.gameObject);
+        }
+    }
+
+    void ActivateShield()
+    {
+        if (shieldVisual != null)
+        {
+            shieldVisual.SetActive(true); // Show the shield effect
+        }
+    }
+
+    public void TakeDamage()
+    {
+        if (hasShield)
+        {
+            hasShield = false;
+            if (shieldVisual != null)
+            {
+                shieldVisual.SetActive(false); // Remove shield effect
+            }
+        }
+        else
+        {
+            // Regular damage handling code here
+        }
+    }
+}
 
