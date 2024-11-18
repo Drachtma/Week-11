@@ -1,0 +1,48 @@
+
+public class PowerUpPickup : MonoBehaviour
+{
+    public AudioClip powerUpSound;
+    public AudioClip powerDownSound;
+
+    private AudioSource audioSource;
+
+    private bool hasPowerUp = false;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("PowerUp"))
+        {
+            PickupPowerUp();
+            Destroy(other.gameObject);  // Destroy the power-up object
+        }
+    }
+
+    void PickupPowerUp()
+    {
+        if (!hasPowerUp)
+        {
+            hasPowerUp = true;
+
+            audioSource.PlayOneShot(powerUpSound);
+
+        }
+    }
+
+    public void PowerDown()
+    {
+        // If the player has the power-up, power down
+        if (hasPowerUp)
+        {
+            hasPowerUp = false;
+
+            audioSource.PlayOneShot(powerDownSound);
+
+        }
+            // Lines in areas like what would be 46 & 33 would be where code for powerups and other information would go.
+    }
+}
