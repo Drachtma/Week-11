@@ -3,9 +3,7 @@ public class PowerUpPickup : MonoBehaviour
 {
     public AudioClip powerUpSound;
     public AudioClip powerDownSound;
-
     private AudioSource audioSource;
-
     private bool hasPowerUp = false;
 
     void Start()
@@ -27,9 +25,7 @@ public class PowerUpPickup : MonoBehaviour
         if (!hasPowerUp)
         {
             hasPowerUp = true;
-
             audioSource.PlayOneShot(powerUpSound);
-
         }
     }
 
@@ -39,10 +35,6 @@ public class PowerUpPickup : MonoBehaviour
         if (hasPowerUp)
         {
             hasPowerUp = false;
-
             audioSource.PlayOneShot(powerDownSound);
-
         }
             // Lines in areas like what would be 46 & 33 would be where code for powerups and other information would go.
-    }
-}
