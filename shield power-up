@@ -1,5 +1,5 @@
 using UnityEngine;
-
+//This part is done by Paola Suro
 public class PowerUpPickup : MonoBehaviour
 {
     private bool hasShield = false;
