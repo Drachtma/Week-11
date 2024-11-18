@@ -5,7 +5,7 @@ public class PowerUpPickup : MonoBehaviour
     public AudioClip powerDownSound;
     private AudioSource audioSource;
     private bool hasPowerUp = false;
-
+//Assuming that this is what the audio is called.
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -20,7 +20,7 @@ public class PowerUpPickup : MonoBehaviour
         }
     }
 
-    void PickupPowerUp()
+    public void PickupPowerUp()
     {
         if (!hasPowerUp)
         {
