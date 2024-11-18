@@ -1,43 +1,52 @@
-using System.
 using UnityEngine;
 
-private class Player : MonoBehaviour
+public class PowerUpPickup : MonoBehaviour
 {
-    privite bool hasShield = false;
-    private GameObject shieldVisual;  // Optional, for a visual shield effect
+    private bool hasShield = false;
 
-    void OnTriggerEnter2D(Collider2D other)
+    void Start()
+    {
+        // Shield starts inactive
+        hasShield = false;
+    }
+
+    void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("ShieldPowerUp"))
         {
-            hasShield = true;
-            ActivateShield();
-            Destroy(other.gameObject);
+            PickupShieldPowerUp();
+            Destroy(other.gameObject);  // Destroy the shield power-up object
         }
     }
 
-    void ActivateShield()
+    void PickupShieldPowerUp()
     {
-        if (shieldVisual != null)
+        if (!hasShield)
         {
-            shieldVisual.SetActive(true); // Show the shield effect
+            hasShield = true;
+            // Shield is now active
         }
     }
 
-    public void TakeDamage()
+    public void ShieldPowerDown()
     {
         if (hasShield)
         {
             hasShield = false;
-            if (shieldVisual != null)
-            {
-                shieldVisual.SetActive(false); // Remove shield effect
-            }
+            // Shield is now inactive
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        // If the player has a shield, block damage
+        if (hasShield && collision.gameObject.CompareTag("EnemyProjectile"))
+        {
+            Destroy(collision.gameObject);  // Destroy the projectile
         }
         else
         {
-            // Regular damage handling code here
+            // Handle damage to the player if no shield is active
         }
     }
 }
-
